@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NewsHeadlines</string>
+    <string name="action_settings">Settings</string>
+    <string name="api_key">Put your API key here</string>
+</resources>
