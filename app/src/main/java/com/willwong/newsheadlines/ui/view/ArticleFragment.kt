@@ -110,7 +110,7 @@ class ArticleFragment : BaseFragement(), ArticleContract.View {
     }
 
     override fun showLoading(loading: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        binding?.progressBar?.visibility = if (loading) View.VISIBLE else View.INVISIBLE
     }
 
     override fun showPublishedDate(date: String) {

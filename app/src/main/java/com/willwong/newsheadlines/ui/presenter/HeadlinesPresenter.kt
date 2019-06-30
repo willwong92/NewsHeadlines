@@ -29,7 +29,7 @@ class HeadlinesPresenter @Inject constructor(repository : Repository, private va
     }
 
     override fun navigateToArticleDetails(article: Article) {
-        view.showArticleDetails(article.source!!.name!!)
+        view.showArticleDetails(article.source?.name!!)
     }
 
     override fun onAttach(v: HeadlinesContract.View) {
@@ -40,7 +40,7 @@ class HeadlinesPresenter @Inject constructor(repository : Repository, private va
         compositeDisposible.clear()
     }
     private fun getArticles() {
-        val disposable : Disposable = repository.getNetworkComics()
+        val disposable : Disposable = repository.getNetworkArticles()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe( { list ->
@@ -48,7 +48,7 @@ class HeadlinesPresenter @Inject constructor(repository : Repository, private va
                     view.showArticleList(list)
                 }, {
                     error ->
-                    print("Headlines Presenter: " + error.message)
+                    print("Headlines Presenter: " + error.printStackTrace())
                 })
         compositeDisposible.add(disposable)
     }

@@ -24,6 +24,7 @@ class App : Application() {
         Realm.init(this)
         val config : RealmConfiguration = RealmConfiguration.Builder().name("newsrealm.realm")
                 .schemaVersion(0)
+                .deleteRealmIfMigrationNeeded()
                 .build()
         Realm.setDefaultConfiguration(config)
 

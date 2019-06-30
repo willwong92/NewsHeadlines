@@ -1,5 +1,6 @@
 package com.willwong.newsheadlines.data.local
 
+import com.vicpin.krealmextensions.query
 import com.vicpin.krealmextensions.queryAll
 import com.vicpin.krealmextensions.queryFirst
 import com.willwong.newsheadlines.data.DataSource
@@ -28,7 +29,7 @@ class LocalNewsDataSource  @Inject constructor(): DataSource {
     }
 
     fun findArticleByName(name : String) : Article? {
-        val realm : Article? = Article().queryFirst{equalTo("name", name)}
+        val realm : Article? = Article().queryFirst{equalTo("source.name", name)}
         return realm
     }
 

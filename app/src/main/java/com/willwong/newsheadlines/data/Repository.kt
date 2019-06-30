@@ -30,13 +30,13 @@ class Repository @Inject constructor(@Local localDataSource: DataSource, @Remote
 
     fun getArticles() : Observable<List<Article>> {
         return getLocalArticles().toObservable()
-                .onErrorResumeNext( getNetworkComics())
+                .onErrorResumeNext( getNetworkArticles())
     }
     fun getLocalArticles(): Single<List<Article>> {
         return localDataSource.getNewsList()
     }
 
-    fun getNetworkComics() : Observable<List<Article>> {
+    fun getNetworkArticles() : Observable<List<Article>> {
         return networkDataSource.getNewsList().toObservable().doOnNext( { articles ->
                 localDataPersistence.save(articles)
         })
