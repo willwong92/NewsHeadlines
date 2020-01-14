@@ -5,6 +5,7 @@ import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
 import io.realm.RealmObject
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -35,11 +36,14 @@ class RetrofitClient() {
         }).create()
         fun client(): Retrofit {
                 val interceptor = RequestInterceptor()
+                val logging = HttpLoggingInterceptor();
+                logging.level = HttpLoggingInterceptor.Level.BODY
                 val client = OkHttpClient.Builder()
                         .connectTimeout(20, TimeUnit.SECONDS)
                         .writeTimeout(20, TimeUnit.SECONDS)
                         .readTimeout(20, TimeUnit.SECONDS)
                         .addInterceptor(interceptor)
+                        .addInterceptor(logging)
                         .build();
                 val retrofit = Retrofit.Builder()
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

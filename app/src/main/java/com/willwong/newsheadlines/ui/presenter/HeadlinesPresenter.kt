@@ -44,7 +44,6 @@ class HeadlinesPresenter @Inject constructor(repository : Repository, private va
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe( { list ->
-                    view.setProgressBar(false)
                     view.showArticleList(list)
                 }, {
                     error ->

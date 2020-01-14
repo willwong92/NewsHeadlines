@@ -16,7 +16,7 @@ import com.willwong.newsheadlines.data.model.Article
  * Created by WillWong on 3/25/19.
  */
 class HeadlinesAdapter(listener : onItemClickListener) : RecyclerView.Adapter<HeadlinesAdapter.ArticleHolder>() {
-    private var list : List<Article>?  = null
+    private var list = mutableListOf<Article>()
 
     interface onItemClickListener {
         fun onItemClicked(article : Article)
@@ -57,15 +57,20 @@ class HeadlinesAdapter(listener : onItemClickListener) : RecyclerView.Adapter<He
         holder.bindArticle(itemArticle, listener)
     }
 
+    fun clear() {
+        list.clear()
+    }
+
     override fun getItemCount(): Int = list!!.size
 
     fun setArticles(newsList: List<Article>) {
-        list = newsList
+        list.addAll(newsList)
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleHolder {
         val dataBinding : ArticleRowBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),R.layout.article_row_item,parent,false)
+        dataBinding.prograssLoadPhoto.visibility = View.GONE
         return ArticleHolder(dataBinding)    }
 
 }

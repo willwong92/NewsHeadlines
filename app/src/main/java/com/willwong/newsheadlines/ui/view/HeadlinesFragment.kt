@@ -17,6 +17,7 @@ import com.willwong.newsheadlines.ui.base.BaseFragement
 import com.willwong.newsheadlines.ui.di.module.HeadlinesPresenterModule
 import com.willwong.newsheadlines.ui.presenter.HeadlinesContract
 import com.willwong.newsheadlines.ui.presenter.HeadlinesPresenter
+import kotlinx.android.synthetic.main.fragment_headlines_list.*
 import kotlinx.android.synthetic.main.fragment_headlines_list.view.*
 import javax.inject.Inject
 
@@ -25,6 +26,12 @@ import javax.inject.Inject
  */
 class HeadlinesFragment : BaseFragement(), HeadlinesContract.View, HeadlinesAdapter.onItemClickListener{
 
+    private val PAGESTART = 1
+    private var currentPage = PAGESTART
+    private var isLastPage = false
+    private var totalPage = 10
+    private var isLoading = false
+    private var itemCount = 0;
     private var dataBinding : HeadlinesBinding? = null
     private var adapter : HeadlinesAdapter? = null
     @Inject
@@ -60,6 +67,20 @@ class HeadlinesFragment : BaseFragement(), HeadlinesContract.View, HeadlinesAdap
         dataBinding?.recyclerView?.layoutManager = LinearLayoutManager(App.instance.applicationContext)
 
     }
+    //TODO unfinished implementation for pagination
+    fun onRefresh() {
+        itemCount = 0
+        currentPage = PAGESTART
+        isLastPage = false
+        adapter?.clear()
+        //prepa
+    }
+    fun initSwipeRefresh() {
+        dataBinding?.refreshSwipe?.setOnRefreshListener{
+
+            refresh_swipe.isRefreshing = false;
+        }
+    }
 
     override fun setProgressBar(progress: Boolean) {
         val visibility = if (progress) View.VISIBLE else View.GONE
@@ -72,6 +93,7 @@ class HeadlinesFragment : BaseFragement(), HeadlinesContract.View, HeadlinesAdap
 
     override fun showArticleList(articleList: List<Article>) {
         adapter?.setArticles(articleList)
+        setProgressBar(false)
     }
 
     override fun onItemClicked(article: Article) {
