@@ -42,7 +42,8 @@ class HeadlinesAdapter(listener : onItemClickListener) : RecyclerView.Adapter<He
             binding.author.text = article.authorName
             Glide.with(binding.img.context).load(article.urlImage).into(binding.img)
             binding.desc.text = article.description
-
+            binding.publishedAt.text = article.publishedAt
+            binding.source.text = article.source?.name
             binding.getRoot().setOnClickListener(object:View.OnClickListener {
                 override fun onClick(view:View) {
                         listener.onItemClicked(article)

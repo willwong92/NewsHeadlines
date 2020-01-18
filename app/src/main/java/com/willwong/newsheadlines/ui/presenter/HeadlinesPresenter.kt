@@ -45,6 +45,7 @@ class HeadlinesPresenter @Inject constructor(repository : Repository, private va
                 .subscribeOn(Schedulers.io())
                 .subscribe( { list ->
                     view.showArticleList(list)
+                    view.setProgressBar(false)
                 }, {
                     error ->
                     print("Headlines Presenter: " + error.printStackTrace())

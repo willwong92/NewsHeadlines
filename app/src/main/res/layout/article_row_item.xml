@@ -149,8 +149,7 @@
                     android:maxLines="1"
                     android:drawablePadding="10dp"
                     android:singleLine="true"
-                    android:ellipsize="end"
-                    android:text="Time" />
+                    android:ellipsize="end"/>
 
 
             </RelativeLayout>

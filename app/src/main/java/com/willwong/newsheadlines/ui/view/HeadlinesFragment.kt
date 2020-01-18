@@ -53,7 +53,9 @@ class HeadlinesFragment : BaseFragement(), HeadlinesContract.View, HeadlinesAdap
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataBinding?.refreshSwipe?.isRefreshing = false
         initRecyclerView()
+        initSwipeRefresh()
         presenter.fetchArticleList(true)
 
 
@@ -77,8 +79,8 @@ class HeadlinesFragment : BaseFragement(), HeadlinesContract.View, HeadlinesAdap
     }
     fun initSwipeRefresh() {
         dataBinding?.refreshSwipe?.setOnRefreshListener{
-
-            refresh_swipe.isRefreshing = false;
+            initRecyclerView()
+            presenter.fetchArticleList(true)
         }
     }
 
@@ -93,6 +95,7 @@ class HeadlinesFragment : BaseFragement(), HeadlinesContract.View, HeadlinesAdap
 
     override fun showArticleList(articleList: List<Article>) {
         adapter?.setArticles(articleList)
+        dataBinding?.refreshSwipe?.isRefreshing = false
         setProgressBar(false)
     }
 
