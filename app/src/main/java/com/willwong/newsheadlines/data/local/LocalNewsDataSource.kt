@@ -29,7 +29,7 @@ class LocalNewsDataSource  @Inject constructor(): DataSource {
     }
 
     fun findArticleByName(name : String) : Article? {
-        val realm : Article? = Article().queryFirst()
+        val realm : Article? = Article().queryFirst { equalTo("titleName", name) }
         return realm
     }
 

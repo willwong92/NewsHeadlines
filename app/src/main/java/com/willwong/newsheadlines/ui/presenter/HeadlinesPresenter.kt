@@ -29,7 +29,7 @@ class HeadlinesPresenter @Inject constructor(repository : Repository, private va
     }
 
     override fun navigateToArticleDetails(article: Article) {
-        view.showArticleDetails(article.source?.name!!)
+        view.showArticleDetails(article.titleName!!)
     }
 
     override fun onAttach(v: HeadlinesContract.View) {
