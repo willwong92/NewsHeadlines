@@ -21,5 +21,9 @@ class ArticleContract {
         fun showPublishedDate(date : String)
 
         fun showLoading(loading : Boolean)
+
+        fun setTitleAppBar(appBarTitle : String)
+
+        fun setSubTitleAppBar(subBarTitle : String)
     }
 }

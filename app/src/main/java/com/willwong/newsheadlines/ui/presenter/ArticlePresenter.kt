@@ -45,6 +45,8 @@ class ArticlePresenter @Inject constructor(repository : Repository, private var 
     private fun showArticleDetails(article : Article) {
         view.showAuthor(article.authorName!!)
         view.showTitle(article.titleName!!)
+        view.setTitleAppBar(article.titleName!!)
+        view.setSubTitleAppBar(article.url!!)
         view.showPublishedDate(article.publishedAt!!)
         view.showUrl(article.url!!)
         view.showUrlToImage(article.urlImage!!)

@@ -3,6 +3,7 @@ package com.willwong.newsheadlines.ui.view
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,15 +18,17 @@ import com.willwong.newsheadlines.databinding.FragmentArticleBinding
 import com.willwong.newsheadlines.ui.di.module.ArticlePresenterModule
 import com.willwong.newsheadlines.ui.presenter.ArticleContract
 import com.willwong.newsheadlines.ui.presenter.ArticlePresenter
+import kotlinx.android.synthetic.main.fragment_article.*
 import javax.inject.Inject
 
 
 
 
 
-class ArticleFragment : BaseFragement(), ArticleContract.View {
+class ArticleFragment : BaseFragement(), ArticleContract.View, AppBarLayout.OnOffsetChangedListener {
     private var binding : FragmentArticleBinding? = null
     private var name : String? = null
+    private var isHideToolBar : Boolean = false
     @Inject
     lateinit var presenter : ArticlePresenter
     companion object {
@@ -42,6 +45,12 @@ class ArticleFragment : BaseFragement(), ArticleContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activity?.let {
+            if (it is HeadlinesActivity) {
+                it.supportActionBar?.hide()
+            }
+        }
+
         retainInstance = true
 
         injectDependency()
@@ -63,6 +72,11 @@ class ArticleFragment : BaseFragement(), ArticleContract.View {
         setupToolbar()
 
         fetchArticle(name!!)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -113,6 +127,15 @@ class ArticleFragment : BaseFragement(), ArticleContract.View {
         binding?.title?.setText(title)
     }
 
+    override fun setSubTitleAppBar(subBarTitle: String) {
+        binding?.subtitleOnAppbar?.setText(subBarTitle)
+    }
+
+    override fun setTitleAppBar(appBarTitle: String) {
+        binding?.titleOnAppbar?.setText(appBarTitle)
+    }
+
+
     override fun showUrl(url: String) {
         binding?.webView?.settings?.loadsImagesAutomatically = true
         binding?.webView?.settings?.javaScriptEnabled = true
@@ -136,6 +159,21 @@ class ArticleFragment : BaseFragement(), ArticleContract.View {
 
     override fun showUrlToImage(image: String) {
         Glide.with(this).load(image).transition(DrawableTransitionOptions.withCrossFade()).into(binding!!.backdrop)
+    }
+
+    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+        val maxScroll = appBarLayout?.totalScrollRange
+        val percent = Math.abs(verticalOffset / maxScroll as Float)
+
+        if (percent == 1f && isHideToolBar) {
+            binding?.titleAppbar?.visibility = View.VISIBLE
+            binding?.dateBehavior?.visibility = View.GONE
+            isHideToolBar = false
+        }
+        else if (percent < 1f && !isHideToolBar)
+            binding?.titleAppbar?.visibility = View.GONE
+            binding?.dateBehavior?.visibility = View.VISIBLE
+            isHideToolBar = true
     }
 
 
