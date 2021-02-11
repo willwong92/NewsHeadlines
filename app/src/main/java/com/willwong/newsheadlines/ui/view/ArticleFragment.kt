@@ -1,22 +1,22 @@
 package com.willwong.newsheadlines.ui.view
 
 import android.databinding.DataBindingUtil
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 import com.willwong.newsheadlines.App
 import com.willwong.newsheadlines.R
-import com.willwong.newsheadlines.data.model.Article
 import com.willwong.newsheadlines.ui.base.BaseFragement
 import com.willwong.newsheadlines.databinding.FragmentArticleBinding
 import com.willwong.newsheadlines.ui.di.module.ArticlePresenterModule
 import com.willwong.newsheadlines.ui.presenter.ArticleContract
 import com.willwong.newsheadlines.ui.presenter.ArticlePresenter
-import kotlinx.android.synthetic.main.fragment_article.*
 import javax.inject.Inject
 
 
@@ -101,14 +101,6 @@ class ArticleFragment : BaseFragement(), ArticleContract.View {
 
     }
 
-    override fun showContent(content: String) {
-
-    }
-
-    override fun showDescription(desc: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun showLoading(loading: Boolean) {
         binding?.progressBar?.visibility = if (loading) View.VISIBLE else View.INVISIBLE
     }
@@ -122,7 +114,24 @@ class ArticleFragment : BaseFragement(), ArticleContract.View {
     }
 
     override fun showUrl(url: String) {
+        binding?.webView?.settings?.loadsImagesAutomatically = true
+        binding?.webView?.settings?.javaScriptEnabled = true
+        binding?.webView?.settings?.setSupportZoom(true)
+        binding?.webView?.settings?.domStorageEnabled = true
+        binding?.webView?.settings?.builtInZoomControls = true
+        binding?.webView?.settings?.displayZoomControls = false
+        binding?.webView?.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
+        binding?.webView?.webViewClient = object : WebViewClient() {
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                showLoading(true)
+            }
 
+            override fun onPageFinished(view: WebView?, url: String?) {
+                showLoading(false)
+            }
+        }
+        binding?.webView?.loadUrl(url)
     }
 
     override fun showUrlToImage(image: String) {

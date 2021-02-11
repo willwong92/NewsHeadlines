@@ -1,19 +1,11 @@
 package com.willwong.newsheadlines.data
 
-import android.util.Log
-import com.vicpin.krealmextensions.saveAll
 import com.willwong.newsheadlines.data.local.LocalDataPersistence
-import com.willwong.newsheadlines.data.local.LocalNewsDataSource
 import com.willwong.newsheadlines.data.model.Article
-import com.willwong.newsheadlines.data.network.NewsDataSource
 import com.willwong.newsheadlines.ui.di.Local
 import com.willwong.newsheadlines.ui.di.Remote
 import io.reactivex.Observable
-import io.reactivex.Observable.just
-import io.reactivex.Scheduler
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 

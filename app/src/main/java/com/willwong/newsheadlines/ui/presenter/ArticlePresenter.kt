@@ -46,9 +46,7 @@ class ArticlePresenter @Inject constructor(repository : Repository, private var 
         view.showAuthor(article.authorName!!)
         view.showTitle(article.titleName!!)
         view.showPublishedDate(article.publishedAt!!)
-        view.showDescription(article.description!!)
         view.showUrl(article.url!!)
         view.showUrlToImage(article.urlImage!!)
-        view.showContent(article.content!!)
     }
 }

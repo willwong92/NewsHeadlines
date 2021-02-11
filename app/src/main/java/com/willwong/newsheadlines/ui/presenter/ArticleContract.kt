@@ -14,15 +14,11 @@ class ArticleContract {
 
         fun showTitle(title : String)
 
-        fun showDescription(desc : String)
-
         fun showUrl(url : String)
 
         fun showUrlToImage(image : String)
 
         fun showPublishedDate(date : String)
-
-        fun showContent(content : String)
 
         fun showLoading(loading : Boolean)
     }

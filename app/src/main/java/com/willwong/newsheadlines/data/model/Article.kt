@@ -33,5 +33,6 @@ open class Article : RealmObject() {
         @SerializedName("publishedAt")
         var publishedAt: String? = null
         @Expose
+        @SerializedName("content")
         var content : String? = null
 }
