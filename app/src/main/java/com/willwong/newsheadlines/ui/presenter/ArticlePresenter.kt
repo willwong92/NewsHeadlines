@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class ArticlePresenter @Inject constructor(repository : Repository, private var view : ArticleContract.View) : ArticleContract.Presenter {
+class ArticlePresenter @Inject constructor(repository : Repository, private var view : ArticleContract.View?) : ArticleContract.Presenter {
     private val repository : Repository
     private val compositeDisposable : CompositeDisposable
     init {
@@ -21,21 +21,22 @@ class ArticlePresenter @Inject constructor(repository : Repository, private var 
     }
 
     override fun onDetach() {
+        view = null
         compositeDisposable.clear()
     }
 
     override fun fetchArticleDetails(name: String) {
-        view.showLoading(true)
+        view?.showLoading(true)
         val disposable : Disposable? = repository.getArticle(name)
                 ?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe({
                     article ->
-                    view.showLoading(true)
+                    view?.showLoading(true)
                     showArticleDetails(article)
                 }, {
                     throwable ->
-                    view.showLoading(false)
+                    view?.showLoading(false)
                     throwable.stackTrace
                 })
 
@@ -43,12 +44,12 @@ class ArticlePresenter @Inject constructor(repository : Repository, private var 
     }
 
     private fun showArticleDetails(article : Article) {
-        view.showAuthor(article.authorName!!)
-        view.showTitle(article.titleName!!)
-        view.setTitleAppBar(article.titleName!!)
-        view.setSubTitleAppBar(article.url!!)
-        view.showPublishedDate(article.publishedAt!!)
-        view.showUrl(article.url!!)
-        view.showUrlToImage(article.urlImage!!)
+        view?.showAuthor(article.authorName!!)
+        view?.showTitle(article.titleName!!)
+        view?.setTitleAppBar(article.titleName!!)
+        view?.setSubTitleAppBar(article.url!!)
+        view?.showPublishedDate(article.publishedAt!!)
+        view?.showUrl(article.url!!)
+        view?.showUrlToImage(article.urlImage!!)
     }
 }

@@ -9,12 +9,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import javax.annotation.Nullable
 import javax.inject.Inject
 
 /**
  * Created by WillWong on 4/3/19.
  */
-class HeadlinesPresenter @Inject constructor(repository : Repository, private var view : HeadlinesContract.View) : HeadlinesContract.Presenter{
+class HeadlinesPresenter @Inject constructor(repository : Repository,private var view : HeadlinesContract.View?) : HeadlinesContract.Presenter{
     private val repository : Repository
     private var compositeDisposible : CompositeDisposable
     init {
@@ -24,12 +25,12 @@ class HeadlinesPresenter @Inject constructor(repository : Repository, private va
 
 
     override fun fetchArticleList(showLoading: Boolean) {
-        view.setProgressBar(showLoading)
+        view?.setProgressBar(showLoading)
         getArticles()
     }
 
     override fun navigateToArticleDetails(article: Article) {
-        view.showArticleDetails(article.titleName!!)
+        view?.showArticleDetails(article.titleName!!)
     }
 
     override fun onAttach(v: HeadlinesContract.View) {
@@ -37,6 +38,7 @@ class HeadlinesPresenter @Inject constructor(repository : Repository, private va
     }
 
     override fun onDetach() {
+        view = null
         compositeDisposible.clear()
     }
     private fun getArticles() {
@@ -44,8 +46,8 @@ class HeadlinesPresenter @Inject constructor(repository : Repository, private va
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe( { list ->
-                    view.showArticleList(list)
-                    view.setProgressBar(false)
+                    view?.showArticleList(list)
+                    view?.setProgressBar(false)
                 }, {
                     error ->
                     print("Headlines Presenter: " + error.printStackTrace())

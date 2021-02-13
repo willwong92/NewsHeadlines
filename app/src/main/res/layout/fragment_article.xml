@@ -119,8 +119,8 @@
 
         <android.support.v4.widget.NestedScrollView
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:fitsSystemWindows="true"
             android:layout_width="match_parent"
+            android:fillViewport="true"
             android:background="@color/colorBackground"
             android:layout_height="match_parent">
             <LinearLayout
@@ -192,7 +192,7 @@
                             app:layout_behavior="@string/appbar_scrolling_view_behavior"
                             android:id="@+id/webView"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="wrap_content"/>
 
 
                     </RelativeLayout>
