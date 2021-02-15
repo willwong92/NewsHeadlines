@@ -23,7 +23,7 @@ class HeadlinesActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .replace(container.id, HeadlinesFragment.newInstance(),HeadlinesFragment.javaClass.simpleName)
+                    .replace(container.id, HeadlinesFragment.newInstance(),HeadlinesFragment::class.java.simpleName)
                     .commit()
         }
 

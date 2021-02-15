@@ -35,7 +35,7 @@ class ArticleFragment : BaseFragement(), ArticleContract.View, AppBarLayout.OnOf
         private val FRAGMENT_ARTICLE_ID = "article_id"
 
         fun newInstance(name: String): ArticleFragment {
-            val args: Bundle = Bundle()
+            val args = Bundle()
             args.putString(FRAGMENT_ARTICLE_ID, name)
             val fragment = ArticleFragment()
             fragment.arguments = args

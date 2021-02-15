@@ -7,5 +7,5 @@ import com.willwong.newsheadlines.data.model.Article
  * Interface for data persistence
  */
 interface DataPersistence {
-    fun save(@NonNull article: List<Article>)
+    fun save(@NonNull articlesList: List<Article>)
 }

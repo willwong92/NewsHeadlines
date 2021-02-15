@@ -1,13 +1,9 @@
 package com.willwong.newsheadlines.data.local
 
-import android.util.Log
 import com.vicpin.krealmextensions.*
 import com.willwong.newsheadlines.data.DataPersistence
 import com.willwong.newsheadlines.data.model.Article
-import io.realm.Realm
 import io.realm.kotlin.createObject
-import io.realm.kotlin.where
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,16 +16,17 @@ class LocalDataPersistence @Inject constructor(): DataPersistence {
         // finds article in database if it does not exist create a record in database for it
         executeTransaction {realm ->
             for (article in articlesList) {
-                val articleRealm = realm.createObject<Article>()
-                articleRealm.authorName = article.authorName
-                articleRealm.publishedAt = article.publishedAt
-                articleRealm.urlImage = article.urlImage
-                articleRealm.url = article.url
-                articleRealm.description = article.description
-                articleRealm.titleName = article.titleName
-                articleRealm.content = article.content
-                articleRealm.source?.name = article.source?.name
-                realm.insert(articleRealm)
+                realm.createObject<Article>().also {
+                    it.authorName = article.authorName
+                    it.publishedAt = article.publishedAt
+                    it.urlImage = article.urlImage
+                    it.url = article.url
+                    it.description = article.description
+                    it.titleName = article.titleName
+                    it.content = article.content
+                    it.source?.name = article.source?.name
+                    realm.insert(it)
+                }
             }
 
         }
